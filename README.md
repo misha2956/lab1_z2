@@ -1,3 +1,3 @@
-# lab1_z1
+# lab1 z2
 
-This projects checks whether the problem solution is valid
+This project is created to validate a board
