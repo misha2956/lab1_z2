@@ -96,8 +96,8 @@ def all_angles_generator(board: list):
 def validate_board(board: list) -> bool:
     """
     This function validates a board.
-
     >>> board = [\
+
     "**** ****",\
     "***1 ****",\
     "**  3****",\
