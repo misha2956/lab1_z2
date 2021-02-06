@@ -20,7 +20,8 @@ def check_numbers_unique(number_list: list) -> bool:
 
     for number in number_list:
         if number not in number_set:
-            number_set.add(number)
+            if number not in [' ', '*']:
+                number_set.add(number)
         else:
             return False
 
@@ -48,14 +49,13 @@ def all_cols_generator(board: list):
     This function is a generator for all cols of a board
 
     >>> [a for a in all_cols_generator(["ab", "*d"])]
-    [['a'], ['b', 'd']]
+    [['a', '*'], ['b', 'd']]
     """
 
     return (
         [
             board[i][j]
             for i, _ in enumerate(board)
-            if board[i][j] not in ['*', ' ']
         ] for j, _ in enumerate(board[0])
     )
 
@@ -143,7 +143,7 @@ def validate_board(board: list) -> bool:
 
     for number_list in chain(
             (line for line in board),
-            all_cols_generator, all_angles_generator
+            all_cols_generator(board), all_angles_generator(board)
     ):
         if not check_numbers_unique(number_list):
             return False
