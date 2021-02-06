@@ -93,11 +93,39 @@ def all_angles_generator(board: list):
         yield angle(start_i, start_j, board)
 
 
+def replace_with_white(board: list):
+    """
+    Replaces white boxes with '*'
+
+    >>> board = [\
+    "*1** ****",\
+    "***1 ****",\
+    "**  3****",\
+    "* 4 1****",\
+    "     9 5 ",\
+    " 6  83  *",\
+    "3   1  **",\
+    "  8  2***",\
+    "  2  ****"]
+    >>> replace_with_white(board)[0]
+    '**** ****'
+    """
+
+    for i in range(4):
+        j = 4 - i
+        board[i] = "*" * j + board[i][j:-4] + 4 * '*'
+
+    for i in range(-1, -5, -1):
+        j = -4 + (abs(i) - 1)
+        board[i] = board[i][:j] + "*" * abs(j)
+
+    return board
+
+
 def validate_board(board: list) -> bool:
     """
     This function validates a board.
     >>> board = [\
-
     "**** ****",\
     "***1 ****",\
     "**  3****",\
@@ -110,6 +138,8 @@ def validate_board(board: list) -> bool:
     >>> validate_board(board)
     False
     """
+
+    board = replace_with_white(board)
 
     for number_list in chain(
             (line for line in board),
