@@ -75,18 +75,16 @@ def all_angles_generator(board: list):
     "  8  2***",\
     "  2  ****"]
     >>> [a for a in all_angles_generator(board)][0]
-    ['3', '1', '9', '5']
+    [' ', ' ', '3', '1', ' ', '9', ' ', '5', ' ']
     """
 
     def angle(start_i, start_j, board):
         return [
             board[i][start_j]
             for i in range(start_i, start_i + 5)
-            if board[i][start_j] not in ['*', ' ']
         ] + [
             board[start_i + 4][j]
-            for j in range(start_j, start_j + 5)
-            if board[start_i + 4][j] not in ['*', ' ']
+            for j in range(start_j + 1, start_j + 5)
         ]
 
     for start_j, start_i in zip(range(4, -1, -1), range(5)):
@@ -137,6 +135,54 @@ def validate_board(board: list) -> bool:
     "  2  ****"]
     >>> validate_board(board)
     False
+    >>> board = [\
+    "**** ****",\
+    "1**1 ****",\
+    "**  3****",\
+    "* 4 1****",\
+    "     9 5 ",\
+    " 6  83  *",\
+    "3   2  **",\
+    "  8  2***",\
+    "  2  ****"]
+    >>> validate_board(board)
+    True
+    >>> board = [\
+    "**** ****",\
+    "***1 ****",\
+    "**  3****",\
+    "* 4 1****",\
+    "     9 5 ",\
+    " 6  83  *",\
+    "3   2  **",\
+    "  8  2***",\
+    "  2  ****"]
+    >>> validate_board(board)
+    True
+    >>> board = [\
+    "**** ****",\
+    "***1 ****",\
+    "**  3****",\
+    "* 4 1****",\
+    "     1 5 ",\
+    " 6  83  *",\
+    "3   2  **",\
+    "  8  2***",\
+    "  2  ****"]
+    >>> validate_board(board)
+    False
+    >>> board = [\
+    "**** ****",\
+    "***1 ****",\
+    "**  3****",\
+    "* 4 1****",\
+    "     9 9 ",\
+    " 6  83  *",\
+    "3   2  **",\
+    "  8  2***",\
+    "  2  ****"]
+    >>> validate_board(board)
+    False
     """
 
     board = replace_with_white(board)
@@ -145,6 +191,7 @@ def validate_board(board: list) -> bool:
             (line for line in board),
             all_cols_generator(board), all_angles_generator(board)
     ):
+        # print(number_list)
         if not check_numbers_unique(number_list):
             return False
 
